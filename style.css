@@ -9,11 +9,11 @@ body {
     min-height: 100vh;
     overflow: hidden;
     background: linear-gradient(180deg,
-            #001f3f 0%,
-            #003d5c 25%,
-            #005a7a 50%,
-            #007799 75%,
-            #0095b6 100%);
+            #001233 0%,
+            #002855 25%,
+            #003d77 50%,
+            #004d99 75%,
+            #0055aa 100%);
     position: relative;
 }
 
@@ -425,44 +425,75 @@ body {
 }
 
 
-/* Fish Styles */
+/* Fish Styles - Artistic Hand-drawn Look */
 .fish {
     position: absolute;
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 20px;
-    background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 159, 64, 0.9));
-    border-radius: 50px;
+    padding: 14px 24px;
+    border-radius: 60px 30px 60px 30px;
     color: #ffffff;
-    font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     transition: transform 0.3s ease;
     animation: swim 1s ease-in-out infinite;
     z-index: 5;
+    border: 3px solid rgba(255, 255, 255, 0.4);
 }
 
-.fish::before {
-    content: '🐟';
-    font-size: 1.5rem;
+.creature-emoji {
+    font-size: 2rem;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
 }
 
-.fish::after {
+.creature-name {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Regular Fish */
+.creature-fish::after {
     content: '';
     position: absolute;
-    right: -15px;
+    right: -18px;
     width: 0;
     height: 0;
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    border-left: 20px solid currentColor;
+    opacity: 0.8;
+}
+
+/* Jellyfish - No tail, different shape */
+.creature-jellyfish {
+    border-radius: 50% 50% 20px 20px;
+    padding: 16px 22px 20px 22px;
+}
+
+.creature-jellyfish::after {
+    display: none;
+}
+
+/* Seahorse - Vertical orientation hint */
+.creature-seahorse {
+    border-radius: 40px 20px 40px 20px;
+    padding: 12px 20px;
+}
+
+.creature-seahorse::after {
+    right: -12px;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
-    border-left: 15px solid rgba(255, 107, 107, 0.9);
+    border-left: 15px solid currentColor;
 }
 
 .fish:hover {
-    transform: scale(1.1);
+    transform: scale(1.15) rotate(-5deg);
     animation-play-state: paused;
+    filter: brightness(1.2);
 }
 
 /* Image Fish */

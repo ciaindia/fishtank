@@ -5,6 +5,13 @@ class Fish {
         this.container = container;
         this.imageUrl = imageUrl;
         this.isImageFish = !!imageUrl;
+
+        // Randomly choose creature type for text fish
+        if (!this.isImageFish) {
+            const types = ['fish', 'jellyfish', 'seahorse'];
+            this.creatureType = types[Math.floor(Math.random() * types.length)];
+        }
+
         this.element = this.createElement();
 
         if (this.isImageFish) {
@@ -26,15 +33,21 @@ class Fish {
         this.frequency = 0.02 + Math.random() * 0.03;
         this.offset = Math.random() * Math.PI * 2;
         this.baseY = this.y;
+
+        // More vibrant, artistic colors matching reference
         this.colors = [
-            ['#ff6b6b', '#ff8e53'],
-            ['#4ecdc4', '#44a08d'],
-            ['#a8e6cf', '#3d84a8'],
-            ['#ffd93d', '#ff6b6b'],
-            ['#6c5ce7', '#a29bfe'],
-            ['#fd79a8', '#fdcb6e'],
-            ['#00b894', '#00cec9'],
-            ['#ff7675', '#fab1a0']
+            ['#FF6B9D', '#FFA07A', '#FFD700'], // Pink-coral-yellow
+            ['#00CED1', '#20B2AA', '#48D1CC'], // Cyan-turquoise
+            ['#FF69B4', '#FF1493', '#C71585'], // Hot pink-magenta
+            ['#FFD700', '#FFA500', '#FF8C00'], // Gold-orange
+            ['#9370DB', '#BA55D3', '#DA70D6'], // Purple-orchid
+            ['#32CD32', '#00FF00', '#7FFF00'], // Lime green
+            ['#FF4500', '#FF6347', '#FF7F50'], // Red-orange-coral
+            ['#00BFFF', '#1E90FF', '#4169E1'], // Sky blue
+            ['#FFFF00', '#FFFFE0', '#FFFACD'], // Yellow-cream
+            ['#FF00FF', '#EE82EE', '#DDA0DD'], // Magenta-violet
+            ['#00FF7F', '#3CB371', '#2E8B57'], // Spring green
+            ['#FF1493', '#FF69B4', '#FFB6C1']  // Deep pink
         ];
         this.colorIndex = Math.floor(Math.random() * this.colors.length);
 
@@ -47,14 +60,20 @@ class Fish {
 
     createElement() {
         const fish = document.createElement('div');
-        fish.className = this.isImageFish ? 'fish image-fish' : 'fish';
 
         if (this.isImageFish) {
+            fish.className = 'fish image-fish';
             fish.innerHTML = `<img src="${this.imageUrl}" alt="Fish">`;
-            // Add drop animation
             fish.style.animation = 'drop 1.5s ease-out, swim 1s ease-in-out infinite 1.5s';
         } else {
-            fish.innerHTML = `<span>${this.name}</span>`;
+            // Add creature-specific class
+            fish.className = `fish creature-${this.creatureType}`;
+
+            // Different emojis for different creatures
+            const emoji = this.creatureType === 'jellyfish' ? '🪼' :
+                this.creatureType === 'seahorse' ? '🐴' : '🐟';
+
+            fish.innerHTML = `<span class="creature-emoji">${emoji}</span><span class="creature-name">${this.name}</span>`;
         }
 
         this.container.appendChild(fish);
@@ -62,13 +81,16 @@ class Fish {
     }
 
     applyColor() {
-        const [color1, color2] = this.colors[this.colorIndex];
-        this.element.style.background = `linear-gradient(135deg, ${color1}, ${color2})`;
+        const [color1, color2, color3] = this.colors[this.colorIndex];
+
+        // Use 3-color gradient for more artistic, vibrant look
+        this.element.style.background = `linear-gradient(135deg, ${color1} 0%, ${color2} 50%, ${color3} 100%)`;
+        this.element.style.boxShadow = `0 4px 15px ${color1}66, 0 0 20px ${color2}44`;
 
         // Update tail color to match
         const style = document.createElement('style');
         style.textContent = `
-            .fish:nth-child(${Array.from(this.container.children).indexOf(this.element) + 1})::after {
+            .creature-${this.creatureType}:nth-child(${Array.from(this.container.children).indexOf(this.element) + 1})::after {
                 border-left-color: ${color1};
             }
         `;
